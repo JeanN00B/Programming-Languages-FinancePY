@@ -1,0 +1,3 @@
+#this is a comment
+NEW_G("success");
+NEW_G("successxd");

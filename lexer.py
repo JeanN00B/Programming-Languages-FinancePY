@@ -24,19 +24,16 @@ tokens.ignore(r'\n')
 tokens.add('SETTLE_ACC', r'SETTLE_ACC(?!\w)')
 tokens.add('BALANCE', r'BALANCE(?!\w)')
 tokens.add('ITEM', r'ITEM(?!\w)')
-tokens.add('SEARCH_U', r'SEARCH_U(?!\w)')
-tokens.add('NEW_GROUP', r'NEW_G(?!\w)')
-tokens.add('READ_GROUP', r'READ_G(?!\w)')
-tokens.add('ADD_USER', r'ADD_USR(?!\w)')
+tokens.add('SEARCH_USER', r'SEARCH_USER(?!\w)')
+tokens.add('NEW_GROUP', r'NEW_GROUP(?!\w)')
+tokens.add('READ_GROUP', r'READ_GROUP(?!\w)')
+tokens.add('ADD_USER', r'ADD_USER(?!\w)')
 tokens.add('INVENTORY', r'INVENTORY(?!\w)')
 tokens.add('DEPOSIT', r'DEPOSIT(?!\w)')
 
-tokens.add('ZERO', r'zero(?!\w)')
-tokens.add('POSITIVE', r'positive(?!\w)')
-tokens.add('NEGATIVE', r'negative(?!\w)')
-
 #Data types
-tokens.add('ID_USR_ACC', r'("[a-zA-Z_\s]+[a-zA-Z](?!\w)")|(\'[a-zA-Z_\s]+[a-zA-Z](?!\w)\')')
+tokens.add('STATE_TOKEN', r'("zero(?!\w)")|("positive(?!\w)")|("negative(?!\w)")')
+tokens.add('ID_TOKEN', r'("[a-zA-Z_\s]+[a-zA-Z](?!\w)")|(\'[a-zA-Z_\s]+[a-zA-Z](?!\w)\')')
 tokens.add('STRING', r'(".?")|(\'.?\')')
 tokens.add('MONEY', r'(-?\d+.\d\d)|(-?\d+.\d)|(-?\d+)')
 tokens.add('BOOLEAN', r'(T)|(F)|(t)|(f)|(0)|(1)|(True)|(False)')
@@ -51,5 +48,5 @@ tokens.add(')', r'\)')
 lexer = tokens.build()
 
 #EXAMPLE OF THE GRAMMAR
-#for token in lexer.lex('#this is a comment\n NEW_G("success");\n NEW_G("successxd");'):
+#for token in lexer.lex('#this is a comment\n NEW_GROUP("success");\n NEW_GROUP("successxd");'):
 #    print(token) #works!

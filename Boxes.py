@@ -1,84 +1,69 @@
 from rply.token import BaseBox
 import csv
 import os
-"""
-# MainBox (todo)
-    # ActionsBox (Todas las líneas de código)
-        # ActionsBox
-            # ...
-        # FunctionBox
-            # ...
-    # FunctionBox (Linea de código hasta el ';')
-        # IdBox (usr_id, ac_id, item_id)
-        # BooleanBox (T/F)
-        # MoneyBox ($$$)
-        # ...
-"""
 on_memory_file = None
-
-class MainBox(BaseBox):#Contiene FunctionBox a ser evaluadas
-    def __init__(self, actionsBox, functionBox):
+class MainBox(BaseBox):
+    def __init__(self, actionsBox=None):
         self.actionsBox = actionsBox
-        self.functionBox = functionBox
-    
     def eval(self):
-        for actions in self.actionsBox.getlist():
-            x = actions.eval()
-            for i in range(x):
-                for action in self.actionsBox.getlist():
-                    action.eval()
+        for actionBox in self.actionsBox.getlist():
+            actionBox.eval()
 
-class ActionsBox(BaseBox):
-    def __init__(self, actionsBox=None, functionBox=None):
+class ActionsBox(BaseBox):#Contiene FunctionBox a ser evaluadas
+    def __init__(self, actionsBox=None, actionBox=None):
         self.actionsBox = actionsBox
-        self.functionBox = functionBox
-
+        self.actionBox = actionBox
     def getlist(self):
         if self.actionsBox:
-            return self.actionsBox.getlist() + [self.functionBox]
+            return self.actionsBox.getlist() + [self.actionBox]
         else:
             return []
 
-class IdBox(BaseBox):
-    def __init__(self, idBox):
-        self.idBox = idBox
-    
+class StateBox(BaseBox):
+    def __init__(self, stateToken):
+        self.stateToken = stateToken
     def eval(self):
-        try:
-            return self.idBox.getstr()
-        except:
-            return None
+        return self.stateToken.getstr()
 
-class BooleanBox(BaseBox):
-    def __init__(self, booleanBox):
-        self.booleanBox = booleanBox
-    
+class TextBox(BaseBox):
+    def __init__(self, stringToken):
+        self.stringToken = stringToken
     def eval(self):
-        if self.booleanBox in ['T','t','1','True']:
-            return True
-        elif self.booleanBox in ['F','t','0','False']:
-            return False
-        else:
-            return False
+        return self.stringToken.getstr()
 
 class MoneyBox(BaseBox):
-    def __init__(self, moneyBox):
-        self.moneyBox = moneyBox
-    
+    def __init__(self, moneyToken):
+        self.moneyToken = moneyToken
     def eval(self):
-        try:
-            return float(self.moneyBox)
-        except:
-            return None
+        return float(self.moneyToken.getstr())
 
-class StateBox(BaseBox):
-    def __init__(self, stateBox):
+class BooleanBox(BaseBox):
+    def __init__(self, booleanToken):
+        self.booleanToken = booleanToken
+    def eval(self):
+        if self.booleanToken.getstr() in ['T', 't', '1', 'True']:
+            return True
+        elif self.booleanToken.getstr() in ['F', 'f', '0', 'False']:
+            return False
+
+class ActionBox(BaseBox):
+    def __init__(self, functionNameBox=None, stateBox=None, accIdBox=None, usrIdBox=None, stringBox=None, moneyBox=None, booleanBox=None):
+        self.functionNameBox = functionNameBox
         self.stateBox = stateBox
+        self.accIdBox = accIdBox
+        self.usrIdBox = usrIdBox
+        self.stringBox = stringBox
+        self.moneyBox = moneyBox
+        self.booleanBox = booleanBox
+    def eval(self):
+        if self.functionNameBox.getstr() == "NEW_GROUP":
+            print("Parser and lexer success!")
+            print(self.functionNameBox.getstr() + "\n" + self.accIdBox.getstr())
+        else:
+            pass
 
-    def getstr(self):
-        if self.stateBox in ['zero', 'positive', 'negative']:
-            return self.stateBox.getstr()
-
+#Commented code to be  replanted
+"""
 class FunctionBox(BaseBox):
     def __init__(self, functionNameBox=None, stateBox=None, accIdBox=None, usrIdBox=None, stringBox=None, moneyBox=None, boolBox=None):
         self.functionNameBox = functionNameBox
@@ -124,3 +109,4 @@ class FunctionBox(BaseBox):
         elif self.functionNameBox.getstr() == None:
             pass
 
+"""

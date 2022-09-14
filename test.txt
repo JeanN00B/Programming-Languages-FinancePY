@@ -1,4 +1,13 @@
 #this is a comment
-NEW_GROUP("success");
-NEW_GROUP("successxd");
-NEW_GROUP("successx");
+#NEW_GROUP("success");
+READ_GROUP("success");
+#ADD_USER("Pepe", 10.35);
+#ITEM("Pepe", "choclo", 5, f);
+#ITEM("Pepe", "choclo", 1);
+#SETTLE_ACC();
+
+BALANCE(zero);
+BALANCE(positive);
+BALANCE(negative);
+INVENTORY("Jean");
+DEPOSIT("Jean", 200.55);

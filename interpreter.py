@@ -19,3 +19,4 @@ def begin(argv):
         print("Please provide a filename.")
         
 main()
+print("Closing interpreter...")

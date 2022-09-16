@@ -27,7 +27,7 @@
 # How to use this language:
  1. Download this repository to any part in your computer
  2. open the python interpreter and execute the following command:
-    >> <path/to/the/interpreter.py> <path/to/the/script.txt>
-    >> interpreter.py example.txt
+    > <path/to/the/interpreter.py> <path/to/the/script.txt>
+    > interpreter.py example.txt
     Where the 'example.txt' script contains the commands to execute.
  3. Close the python interpreter.

@@ -17,7 +17,6 @@ def begin(argv):
             expression.eval()    
     else:
         print("Please provide a filename.")
-
-
-#if __name__ == '__main__':
+        
 main()
+print("Closing interpreter...")

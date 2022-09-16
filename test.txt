@@ -1,13 +1,25 @@
-#this is a comment
-#NEW_GROUP("success");
-READ_GROUP("success");
-#ADD_USER("Pepe", 10.35);
-#ITEM("Pepe", "choclo", 5, f);
-#ITEM("Pepe", "choclo", 1);
-#SETTLE_ACC();
+NEW_GROUP("Carne asada bailable");
+READ_GROUP("Carne asada bailable");
+ADD_USER("Pepe", 10.35);
+ADD_USER("Jean", 11.3);
+ADD_USER("Damian", 5);
+ADD_USER("Mila", 20.50);
+
+ITEM("Jean", "choclo", 2.45 f);
+ITEM("Pepe", "papas", 2.);
+ITEM("Mila", "carne de res", 5, f);
+ITEM("Mila", "carne de cerdo", 5,50, T);
+ITEM("Jean", "carbón", 3, T);
+ITEM("Pepe", "verduras", 2.15);
+ITEM("Damian", "bielas", 5);
+ITEM("Pepe", "maduro", 2.25);
+ITEM("Jean", "chorizo", 3);
+ITEM("Pepe", "salsas", 1.5);
+
+SETTLE_ACC();
 
 BALANCE(zero);
 BALANCE(positive);
 BALANCE(negative);
 INVENTORY("Jean");
-DEPOSIT("Jean", 200.55);
+DEPOSIT("Jean", 50.55);

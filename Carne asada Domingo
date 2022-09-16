@@ -1,0 +1,13 @@
+*****
+FILENAME,Carne asada Domingo
+USERS,Pepe,Jean,Damian,Mike
+MONEY,5.7,9.85,0.85,2.85
+BALANCE,True
+*****
+USER ID,ITEM ID,VALUE,TAXES,PAYED
+Jean,choclo,1.12,True,True
+Pepe,choclo,1.0,False,True
+Jean,carne de res,6.0,False,True
+Pepe,platano maduro,1.5,False,True
+Damian,carbon,2.24,True,True
+Damian,carne de cerdo,6.72,True,True

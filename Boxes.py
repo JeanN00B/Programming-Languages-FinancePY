@@ -76,7 +76,7 @@ class ActionBox(BaseBox):
                     account_string.writerow(['MONEY'])
                     account_string.writerow(['BALANCE','T'])
                     account_string.writerow(['*****'])
-                    account_string.writerow(['USER ID', 'ITEM ID', 'VALUE', 'TAXES']) #Possible to modify bellow
+                    account_string.writerow(['USER ID', 'ITEM ID', 'VALUE', 'TAXES','PAID']) #Possible to modify bellow
                 on_memory_file = self.textBox1
             except:
                 print("ERROR! file already exist on current directory")
@@ -134,7 +134,13 @@ class ActionBox(BaseBox):
                         elif float(tmp[rows+1][tmp[rows].index(self.textBox1)]) <= 0:
                             print('ERROR! user "{}" has run out of money and/or is on negative values already!'.format(self.textBox1))
                         else:
-                            tmp[rows+1][tmp[rows].index(self.textBox1)] = round(float(tmp[rows+1][tmp[rows].index(self.textBox1)]) - float(self.moneyBox), 2)
+                            if self.booleanBox == False:
+                                tmp[rows+1][tmp[rows].index(self.textBox1)] = round(float(tmp[rows+1][tmp[rows].index(self.textBox1)]) - float(self.moneyBox), 2)
+                            elif self.booleanBox == True:
+                                tmp[rows+1][tmp[rows].index(self.textBox1)] = round(float(tmp[rows+1][tmp[rows].index(self.textBox1)]) - float(self.moneyBox*1.12), 2)
+                            else:
+                                tmp[rows+1][tmp[rows].index(self.textBox1)] = round(float(tmp[rows+1][tmp[rows].index(self.textBox1)]) - float(self.moneyBox), 2)
+                                print("ERROR! unexpected taxes tag, set on false by default")
                             tmp[rows+2][1] = False #Balance set to false
                             with open(on_memory_file, mode='w') as file:        
                                 write_f = csv.writer(file)
@@ -143,12 +149,15 @@ class ActionBox(BaseBox):
                                             
                             with open(on_memory_file, mode='a') as file:
                                 write_f = csv.writer(file)
-                                write_f.writerow([self.textBox1, self.textBox2, self.moneyBox, self.booleanBox])
+                                if self.booleanBox == False:
+                                    write_f.writerow([self.textBox1, self.textBox2, self.moneyBox, self.booleanBox, False])
+                                else:
+                                    write_f.writerow([self.textBox1, self.textBox2, round(self.moneyBox*1.12,2), self.booleanBox,False])
 
         elif self.functionNameBox == 'SETTLE_ACC':
             #1st: see if there are users and how much they spent.
             if on_memory_file != None:
-                print("\nCalculating how much money each user needs to recieve/give (negative values are who give and positive who recieve)")
+                print("\nCalculating how much money each user needs to recieve/give (negative values must deposit the money required to settle again")
                 with open(on_memory_file, mode="r") as file:
                     read_f = csv.reader(file)
                     tmp = [] #store FILE info temporally
@@ -165,22 +174,21 @@ class ActionBox(BaseBox):
                         ###################
                                 money = 0
                                 for users in range(len(tmp)):#check in the inventory for all users that matches
-                                    if (tmp[users][0] == tmp[rows][i]) and (tmp[users][3] == "False"):
+                                    if (tmp[users][0] == tmp[rows][i]) and (tmp[users][4] == "False"):
                                         money = money + float(tmp[users][2])
-                                    elif (tmp[users] == tmp[rows][i]) and (tmp[users][3] == "True"):
-                                        money = money + float(tmp[users][2]) + float(tmp[users][2])*0.12 # add IVA 12%
+                                        tmp[users][4] = True
                                 spent_money_by_usr.append(money) #stored all the data as "i" users are on the account
                         ###################
             #2nd: Users and money are stored {DONE}
             # OPERATIONS to calculate the differential and the differential itself.
                 differential_calculated = 0
                 for values in range(len(spent_money_by_usr)):
-                    differential_calculated += spent_money_by_usr[values]
-                differential_calculated = differential_calculated/len(users_list)
+                    differential_calculated = differential_calculated + float(spent_money_by_usr[values])
+                differential_calculated = round(differential_calculated/len(users_list),2)
             #PRINT data
                 settled_money_values = []
                 for i in range(len(actual_money_by_usr)):
-                    settled_money_values.append(float(actual_money_by_usr[i]) - differential_calculated + float(spent_money_by_usr[i]))
+                    settled_money_values.append(round(float(actual_money_by_usr[i]) - differential_calculated + float(spent_money_by_usr[i]),2))
                 print("USERS: {}".format(users_list))
                 print("MONEY BEFORE SETTLE OPERATION: {}".format(actual_money_by_usr))
                 print("SETTLED VALUES: {}".format(settled_money_values))
@@ -188,8 +196,8 @@ class ActionBox(BaseBox):
             #3rd MODIFY original document to settle the account and set actual money values
                 for rows in range(len(tmp)):
                     if tmp[rows][0] == "MONEY":
-                        for i in range(1,len(settled_money_values)):
-                            tmp[rows][i] = settled_money_values[i]
+                        for i in range(len(settled_money_values)):
+                            tmp[rows][i+1] = settled_money_values[i]
                         tmp[rows+1][1] = True #balanced acc
                         pass
                     pass

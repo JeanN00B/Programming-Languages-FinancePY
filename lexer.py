@@ -34,7 +34,7 @@ tokens.add('DEPOSIT', r'DEPOSIT(?!\w)')
 tokens.add('STATE_TOKEN', r'(zero(?!\w))|(positive(?!\w))|(negative(?!\w))')
 tokens.add('ID_TOKEN', r'("[a-zA-Z_\s]+[a-zA-Z](?!\w)")|(\'[a-zA-Z_\s]+[a-zA-Z](?!\w)\')')
 tokens.add('STRING', r'(".?")|(\'.?\')')
-tokens.add('MONEY', r'(-?\d+.\d\d)|(-?\d+.\d)|(-?\d+)')
+tokens.add('MONEY', r'(\d+.\d\d)|(\d+.\d)|(\d+)')
 tokens.add('BOOLEAN', r'(True)|(False)|(true)|(false)|(T)|(F)|(t)|(f)')
 
 #Structure punctuation

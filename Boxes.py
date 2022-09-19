@@ -275,7 +275,6 @@ class ActionBox(BaseBox):
                         print("ERROR! User is not registered on this account.")
                     else:
                         tmp[3][tmp[2].index(self.textBox1)] = round(float(tmp[3][tmp[2].index(self.textBox1)]) + float(self.moneyBox),2)
-                        print(tmp[3][tmp[2].index(self.textBox1)])
                 #Write time!
                 with open(on_memory_file, mode='w') as file:        
                     write_f = csv.writer(file)
